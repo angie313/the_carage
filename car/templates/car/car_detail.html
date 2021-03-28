@@ -1,0 +1,468 @@
+{% extends 'car/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<h5 class="text-center text-success" id="del-success"></h5>
+<h5 class="text-center text-danger" id="del-fail"></h5>
+
+<div class="w-75 mx-auto main-sect">
+    <div class="m-4">
+        <h3>
+            {{this_car.year}} {{this_car.make}} {{this_car.model}} 
+            <a href="" data-toggle="modal" data-target='#editModal'><i class="fas fa-edit text-primary ml-4"></i></a>
+        </h3>
+        {% if not this_car.vin %}
+        <form class="form-inline" id="add-vin-fm" method="POST">  {% csrf_token %}
+            <div class="form-group-sm" id='vin-row'>
+                <input type="hidden" name="id" id="car_id" value="{{this_car.id}}">
+                <input type="text" class="form-control form-control-sm" id="vin-input" placeholder="Enter VIN">
+                <button type="submit" class="btn btn-success btn-sm mx-3">Add</button>
+            </div>
+        </form>
+        {% else %}
+        <p class="text-muted mb-4">VIN: {{this_car.vin}}</p>
+        {% endif %}
+    </div>      
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Basics</a>
+            <a class="nav-item nav-link" id="nav-warranty-tab" data-toggle="tab" href="#nav-warranty" role="tab" aria-controls="nav-warranty" aria-selected="false">Warranty</a>
+            <a class="nav-item nav-link" id="nav-service-tab" data-toggle="tab" href="#nav-service" role="tab" aria-controls="nav-service" aria-selected="false">Services/Repairs</a>
+            <a class="nav-item nav-link" id="nav-maint-tab" data-toggle="tab" href="#nav-maint" role="tab" aria-controls="nav-maint" aria-selected="false">Service Schedule</a>
+            <a class="nav-item nav-link" id="nav-recall-tab" data-toggle="tab" href="#nav-recall" role="tab" aria-controls="nav-recall" aria-selected="false">Recalls</a>
+            <a class="nav-item nav-link" id="nav-shop-tab" data-toggle="tab" href="#nav-shop" role="tab" aria-controls="nav-shop" aria-selected="false">Nearby Auto Shops</a>
+
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <!-- info-content -->
+        <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+            <table class="table text-center mt-4">
+                <thead>
+                  <tr>
+                    <th scope="col">Year</th>
+                    <th scope="col">Make</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Trim</th>
+                    <th scope="col">Engine</th>
+                    <th scope="col">Transmission</th>
+                    <th scope="col">Odometer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr> 
+                        <td class="get_yr">{{this_car.year}}</td> 
+                        <td class="get_make">{{this_car.make}}</td>
+                        <td class="get_model">{{this_car.model}}</td>
+                        <td class="get_trim">{{this_car.trim}}</td>
+                        <td class="get_engine">{{this_car.engine}}</td>
+                        <td class="get_transmission">{{this_car.transmission}}</td>
+                        <td class="get_odometer">{{this_car.odometer}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- warranty-content -->
+        <div class="tab-pane fade" id="nav-warranty" role="tabpanel" aria-labelledby="nav-warranty-tab">
+            <div class="w-50 mx-auto my-5" id="warranty-status">
+                <!-- <div class="text-center"><i class="fas fa-check-circle fa-4x text-success"></i></div> -->
+                <h3 class="text-center my-3">Warranty Status</h3>
+                <p class="text-muted"> 
+                    Please set the most current odometer for accurate warranty status. 
+                    Below is your default warranty information. This excludes any additional warranty 
+                    coverage you may have purchased.  
+                </p>
+            </div>
+            <div class="w-50 mx-auto d-flex justify-content-around">
+                <div id="basic-warranty">
+                    <p class="mt-3">Basic New Car warranty <br />3 year / 36,000 miles</p>
+                </div>
+                <div id="powertrain">
+                    <p class="mt-3">Powertrain warranty <br />5 year / 60,000 miles</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- service-content -->
+        <div class="tab-pane fade" id="nav-service" role="tabpanel" aria-labelledby="nav-service-tab">
+            {% if not this_car.svc_records.all %}
+            <div id="no-records-mssg">
+                <h3 class="text-center my-5">You have not added any service/repair records</h3>
+                <div class="text-center">
+                    <button class="btn btn-primary mx-auto" data-toggle="modal" data-target='#addServiceModal'>ADD ONE NOW</button>
+                </div>
+            </div>
+            
+
+            {% else %}
+
+            <div id="all-records" class="row">
+                
+                <div id='services' class="col-6">
+                    {% if not all_services %}
+                    <h5 class="m-5">No services recorded</h5>
+                    {% else %}
+                    
+                    <h5 class="mr-3 d-inline-block">Service Records</h5>
+                    <a href="" data-toggle="modal" data-target='#addServiceModal'><i class="fas fa-plus fa-lg text-success"></i></a>
+                    {% for service in all_services %}
+                    <div id="record{{service.id}}">
+                        <div class="card">
+                            <div class="card-header" id="headingService{{service.id}}">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseService{{service.id}}" aria-controls="collapseService{{service.id}}">
+                                    {{service.title}} | {{service.service_date|date:"Y-m-d"}}
+                                </button>
+                                <a href="edit-record-link" class="mr-2" name={{service.id}}><i class="fas fa-pencil-alt text-dark"></i></a>
+                                <a href="" class="rm-link" name={{service.id}}><i class="fas fa-trash-alt text-danger"></i></a>
+                              </h5>
+                            </div>
+                        
+                            <div id="collapseService{{service.id}}" class="collapse" aria-labelledby="headingService{{service.id}}" data-parent="#record{{service.id}}">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>{{service.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>{{service.location}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Odometer</td>
+                                            <td>{{service.odometer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Receipt</td>
+                                            <td>
+                                                <a href="{{ service.service_receipt.url }}" target="_blank">
+                                                    <img src="{{ service.service_receipt.url }}" alt="Service Receipt" style="max-height:150px; width:60%">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div id="repairs" class="col-6">
+                    {% if all_repairs %}
+                    <h5 class="mr-3 d-inline-block">Repair Records</h5>
+                    <a href="" data-toggle="modal" data-target='#addServiceModal'><i class="fas fa-plus fa-lg text-success"></i></a>
+                    {% for repair in all_repairs %}
+                    <div id="record{{repair.id}}">
+                        <div class="card">
+                            <div class="card-header" id="headingRepair{{repair.id}}">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseRepair{{repair.id}}" aria-controls="collapseRepair{{repair.id}}">
+                                    {{repair.title}} | {{repair.service_date|date:"Y-m-d"}}
+                                </button>
+                                <a href="edit-record-link" class="mr-2" name={{repair.id}}><i class="fas fa-pencil-alt text-dark"></i></a>
+                                <a href="" class="rm-link" name={{repair.id}}><i class="fas fa-trash-alt text-danger"></i></a>
+
+                              </h5>
+                            </div>
+                        
+                            <div id="collapseRepair{{repair.id}}" class="collapse" aria-labelledby="headingRepair{{repair.id}}" data-parent="#record{{repair.id}}">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>{{repair.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>{{repair.location}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Odometer</td>
+                                            <td>{{repair.odometer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Receipt</td>
+                                            <td>
+                                                <a href="{{ repair.service_receipt.url }}" target="_blank">
+                                                    <img src="{{ repair.service_receipt.url }}" alt="Repair Receipt" style="max-height:150px; width:60%">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif%}
+
+                </div>
+
+            </div>
+            {% endif %}
+            
+        </div>
+        
+        <!-- maintenance-content -->
+        <div class="tab-pane fade" id="nav-maint" role="tabpanel" aria-labelledby="nav-maint-tab">
+            <div id="maint-accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
+                            Service Item Groups (Manufacture Recommended Services)
+                        </button>
+                      </h5>
+                    </div>
+                
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#maint-accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h5>Group A:</h5>
+                                    <ul>
+                                        <li>Replace Engine Oil</li>
+                                        <li>Rotate Tires</li>
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <h5>Group B:</h5>
+                                    <ul>
+                                        <li>Replace Engine Oil Filter</li>
+                                        <li>Inspect Front and Rear Brakes</li>
+                                        <li>Check Parking Brake Adjustment</li>
+                                        <li>Inspect Tie Rods, Steering Gearbox, and Boots</li>
+                                        <li>Inspect Suspension Components</li>
+                                        <li>Inspect Driveshaft Boots</li>
+                                        <li>Inspect Brake Hoses and Lines</li>
+                                        <li>Check all Fluid Levels, Conditions of Fluids, and Check for Leaks</li>
+                                        <li>Inspect Cooling System Hoses and Connections</li>
+                                        <li>Inspect Exhaust System</li>
+                                        <li>Inspect Fuel Lines and Connections</li>
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <h5>Group C:</h5>
+                                    <ul>
+                                        <li>Replace Air Cleaner Element</li>
+                                        <li>Replace Spark Plugs</li>
+                                        <li>Inspect and Adjust Drive Belts</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="table table-sm"></table>
+
+        </div>
+        
+        <!-- recall-content -->
+        <div class="tab-pane fade" id="nav-recall" role="tabpanel" aria-labelledby="nav-recall-tab"><div id="accordion"></div></div>
+
+        <!-- shop-content -->
+        <div class="tab-pane fade" id="nav-shop" role="tabpanel" aria-labelledby="nav-shop-tab">
+            <div class="w-50 mx-auto my-5">
+                <form class="form-inline" id="location-form">
+                    <input type="text" class="form-control mr-3" id="search-content" value="Car Repair">
+                    <input type="text" class="form-control mr-3" id="location-input" placeholder="Enter location">
+                    <button class="btn btn-primary" id="search-location" type="submit">Search</button>
+                </form>
+            </div>
+
+            <div id='page-nums'></div>
+
+            <div id="map-info" class="row">
+                
+                <div id='place-results' class="col-6"></div>
+                <div id="map" class="col-6"></div>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+    <!-- Edit Vehicle Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Edit Car</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<form action="{% url 'edit-car' pk=this_car.id %}" method="POST">{% csrf_token %}
+			  
+			  <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="year">Year</label>
+                        <input type="text" class="form-control" id="year" name="year" value="{{this_car.year}}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="make">Make</label>
+                        <input type="text" class="form-control" id="make" name="make" value='{{this_car.make}}'>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="model">Model</label>
+                        <input type="text" class="form-control" id="model" name="model" value='{{this_car.model}}'>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="trim">Trim</label>
+                        <input type="text" class="form-control" id="trim" name="trim" value='{{this_car.trim}}'>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="engine">Engine</label>
+                        <input type="text" class="form-control" id="engine" name="engine" value='{{this_car.engine}}'>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="transmission">Transmission</label>
+                        <input type="text" class="form-control" id="transmission" name="transmission" value='{{this_car.transmission}}'>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="vin-modal">VIN</label>
+                        <input type="text" class="form-control" id="vin-modal" name="vin" value='{{this_car.vin}}'>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="odometer">Odometer</label>
+                        <input type="text" class="form-control" id="odometer" name="odometer" value='{{this_car.odometer}}'>
+                    </div>
+                </div>
+			  </div>
+  
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-success" id='add-ymm'>Edit</button>
+			  </div>
+  
+			</form>
+		  </div>
+		</div>
+	</div>
+
+    <!-- Modal to confirm car when add vin -->
+    <div class="modal fade" id="cf-car-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Confirm Vehicle</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<form id='confirm-form' method="POST"> {% csrf_token %}
+			  <input type="hidden" id="">
+			  <div class="modal-body"> 
+                <p>We found this car for the VIN added:</p> </div>
+              
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-success">Confirm Car</button>
+			  </div>
+			</form>
+		  </div>
+		</div>
+	</div>
+
+    <!-- Add repair/service record modal -->
+    <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Add a Record</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<form id="add-records-fm" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="car_id" value="{{this_car.id}}">
+			    <div class="modal-body">
+                    {{ service_form|crispy }}
+                </div>
+  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" id='add-records'>Add</button>
+                </div>
+  
+			</form>
+		  </div>
+		</div>
+	</div>
+
+    <!-- Remove-record modal  -->
+	<div class="modal fade" id="rm-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Remove Record</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<form id="del-record-form">
+			  <input type="hidden" id="rm-target-id">
+			  <div class="modal-body">Are you sure you want to remove this record?</div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				<button type="submit" class="btn btn-danger" id="rm-btn">Yes</button>
+			  </div>
+			</form>
+		  </div>
+		</div>
+	</div>
+
+    <!-- Edit record modal -->
+    <div class="modal fade" id="editRecordModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Edit Record</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<form action="" id="edit-record-form" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="car_id" value="{{this_car.id}}">
+			    <div class="modal-body">
+                    {{ service_form|crispy }}
+                </div>
+  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" id='add-records'>Edit</button>
+                </div>
+  
+			</form>
+		  </div>
+		</div>
+	</div>
+
+
+
+</div>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{google_map_api}}&libraries=places">
+</script>
+{% endblock content %}

@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'car/style.css' %}">
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>The Car Garage</title> 
+
+</head>
+
+<body id='body'>
+
+    <nav class="navbar container navbar-expand-md navbar-light mt-3">
+        <div class="container justify-content-start">
+            <a class="navbar-brand mr-4" href="/">
+                <img src="{% static 'car/images/car-garage.png' %}" width="70" height="65" alt="Car Garage Logo" class="">
+            </a>
+            {% if user.is_authenticated %}
+                <h4 class="m-4 text-dark font-italic d-inline-block">Welcome, {{user.username}}!</h4>
+            {% endif %}
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav">
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item m-3">
+                        <a href="/"><i class="fas fa-car-side fa-flip-horizontal fa-2x text-dark"></i></a>
+                    </li>
+                    <li class="nav-item m-3">
+                        <a href="{% url 'profile-page' pk=user.id %}"><i class="fas fa-user-tie fa-2x text-dark"></i></a>
+                    </li>
+                    <li class="nav-item m-3">
+                        <a href="{% url 'logout-page' %}"><i class="fas fa-sign-out-alt fa-2x text-dark"></i></a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <h5><a class="nav-link text-dark" href="{% url 'login-page' %}">Login</a></h5>
+                    </li>
+                    <li class="nav-item">
+                        <h5><a class="nav-link text-dark" href="{% url 'register-page' %}">Register</a></h5>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
+    </nav>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} text-center mt-5 w-75 mx-auto alert-dismissible fade show" id="mssg" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="{% static 'car/secret.js' %}"></script>
+    <script src="{% static 'car/func.js' %}"></script>
+    <script src="https://kit.fontawesome.com/0730351a81.js" crossorigin="anonymous"></script>
+    <!-- <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATpTmz-s_6aCMGiqfoXr5rJgfDF430QEc&libraries=places">
+    </script> -->
+    <!-- <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=&libraries=places">
+    </script> -->
+    <!-- AIzaSyATpTmz-s_6aCMGiqfoXr5rJgfDF430QEc -->
+
+</body>
+</html>

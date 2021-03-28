@@ -1,0 +1,52 @@
+{% extends 'car/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- 'user' is a built-in django variable represents the current logged-in user -->
+
+    <div class="w-75 mx-auto main-sect">     
+
+        
+        <div class="row d-flex justify-content-between pb-3 mb-3 border-bottom">
+            <h4>Edit My Profile</h4>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary" role="button">Back to My Cars</a>
+        </div>
+        
+        
+        <div class="row justify-content-between">
+            <form class='col-5'method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ u_form|crispy }}
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success my-2" name='u-btn'>Update</button>
+                    </div>
+                </fieldset>
+            </form>
+            <form class='col-5'method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ p_form|crispy }}
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success my-2" name='p-btn'>Reset</button>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+
+        <!-- <div class="row border-top pt-3">
+            <form method="POST" class="mx-auto">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ desc_form|crispy }}
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success my-2" name='d-btn'>Update</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div> -->
+    </div>
+    
+
+{% endblock content %}

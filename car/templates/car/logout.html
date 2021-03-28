@@ -1,0 +1,8 @@
+{% extends 'car/base.html' %}
+
+{% block content %}
+<h2 class="text-center">You have been logged out!</h2>
+<div id='buttons' class="border-top pt-3 text-center">
+    <a class="btn btn-dark btn-lg" role="button" href="{% url 'login-page' %}">Login Again</a>
+</div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'car/base.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="container" id="main">
+    <div class="row mt-4">
+        <div class="col-7">
+            <h1>The easy way to manage your car</h1>
+            <ul class="m-4 fa-ul">
+                <li><span class="fa-li"><i class='fas fa-check'></i></span>Keeps basic vehicle information</li>
+                <li><span class="fa-li"><i class='fas fa-check'></i></span>Stores vehicle service/repair records</li>
+                <li><span class="fa-li"><i class='fas fa-check'></i></span>Provides vehicle maintenance schedules</li>
+                <li><span class="fa-li"><i class='fas fa-check'></i></span>Alerts vehicle safety recalls</li>
+                <li><span class="fa-li"><i class='fas fa-check'></i></span>Locates nearby service shops</li>
+            </ul>
+            <div id='buttons' class="text-center mt-5">
+                <a class="btn btn-dark btn-lg" role="button" href="{% url 'register-page' %}">Get Started</a>
+            </div>
+        </div>
+        <div class="col-5">
+            <img src="{% static 'car/images/car-manage1.png' %}" alt="Car Management" id="car-img">
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

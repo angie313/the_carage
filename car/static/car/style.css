@@ -1,0 +1,57 @@
+#body {
+    background-color: #d4e0e4;
+}
+
+.nav-item {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 1em;
+}
+
+#main {
+    padding-top: 5rem;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+}
+
+#car-img {
+    width: 95%;
+    height: auto;
+    padding-top: 50px;
+}
+
+.fa-ul li {
+    list-style-type: none;
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.fa-check {
+    margin-right: 1em
+}
+
+
+/* --------- */
+
+.main-sect {
+    width: 35%;
+    margin: 80px auto;
+}
+
+/* --------- */
+
+.car-btn {
+    min-height: 80px;
+    word-wrap: break-word;
+}
+
+/* ---------- */
+.material-icons.md-60 { font-size: 60px; }
+
+#map {
+    height: 500px;
+    /* height: 100%  */
+}
