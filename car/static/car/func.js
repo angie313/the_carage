@@ -27,7 +27,6 @@ $(document).ready(function(){
                 "x-rapidapi-host": "vin-decoder7.p.rapidapi.com"
             },
             contentType: "application/json; charset=utf-8",
-            // datatype: "json",
         };
         return vinDecode
     }
@@ -525,9 +524,6 @@ $(document).ready(function(){
             type: 'GET',
             url: "get-service-info/"+recordID,
         }).done(function(response){
-            console.log(response)
-            console.log(typeof(response[0].fields.service_date))
-            console.log(response[0].fields.service_date)
 
             $('#editRecordModal').modal('show')
             $('#edit-record-form').attr('action', '/my-cars/service/edit/'+response[0].pk)

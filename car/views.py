@@ -178,7 +178,6 @@ def add_record(request, pk):
     if request.method == "POST":
         this_car = Car.objects.get(id=pk)
         rec_form = AddServiceForm(data=request.POST, files=request.FILES)
-        # print(rec_form)
         if rec_form.is_valid():
             new_record = rec_form.save(commit=False)    
             new_record.car = this_car
@@ -266,6 +265,7 @@ def testdata(request, vin):
 
 
 def warranty_data(request):
+    
     warranty = {
         "message": {
             "code": 0,
