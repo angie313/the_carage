@@ -6,7 +6,7 @@ from .forms import UserRegisterForm, UserUpdateForm, AddServiceForm
 from django.contrib.auth.models import User
 from .models import Car, ServiceRecord
 from django.views.generic import ListView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 import json
@@ -27,20 +27,14 @@ def register(request):
 
     if request.method == "POST":
         reg_form = UserRegisterForm(request.POST)
-        # profile_form = ProfileForm(request.POST)
 
         if reg_form.is_valid():
             reg_form.save()      
-            # profile = profile_form.save(commit=False)
-            # profile.user = new_user
-            # profile.save()
-
-            # username = base_form.cleaned_data.get('username')
+            
             messages.success(request, f'Your account has been created! You may log in now.')
             return redirect('login-page')
     
     reg_form = UserRegisterForm()
-    # profile_form = ProfileForm()
     
     return render(request, 'car/register.html', {'reg_form': reg_form})
 
@@ -119,7 +113,6 @@ def del_car(request, pk):
     this_car.delete()
 
     return JsonResponse({'success': car_name + ' successfully deleted!'})
-    # return JsonResponse({'success': ' successfully deleted!'})
 
 
 @login_required
@@ -227,45 +220,8 @@ def edit_record(request, pk):
         return redirect('car-view', this_car)
 
 
-
-# Testing JSON Data
-
-def testdata(request, vin):
-
-   
-    car_data = {
-    
-    "vin": vin,
-    "specifications": {
-        "vin": "5TDYKRFH8FS078210",
-        "year": "2015",
-        "make": "Toyota",
-        "model": "Highlander",
-        "trim": "Limited",
-        "engine": "3.5-L V-6 DOHC 24V",
-        "style": "FWD V-6",
-        "made_in": "United States",
-        "steering_type": "Rack & Pinion",
-        "anti_brake_system": "4-Wheel ABS",
-        "type": "Sport Utility Vehicle",
-        "overall_height": "68.10 inches",
-        "overall_length": "191.10 inches",
-        "overall_width": "75.80 inches",
-        "standard_seating": "7",
-        "highway_mileage": "25 miles/gallon",
-        "city_mileage": "19 miles/gallon",
-        "fuel_type": "Regular Unleaded",
-        "drive_type": "Front-Wheel Drive",
-        "transmission": "6-Speed Automatic"}
-    }
-
-    json_data = json.dumps(car_data)
-
-    return HttpResponse(json_data, content_type='application/json')
-
-
 def warranty_data(request):
-    
+
     warranty = {
         "message": {
             "code": 0,
@@ -315,6 +271,46 @@ def warranty_data(request):
     warranty_data = json.dumps(warranty)
 
     return HttpResponse(warranty_data, content_type='application/json')
+
+
+
+
+
+
+# Testing vin decoder API Data
+
+def testdata(request, vin):
+   
+    car_data = {
+    
+    "vin": vin,
+    "specifications": {
+        "vin": "5TDYKRFH8FS078210",
+        "year": "2015",
+        "make": "Toyota",
+        "model": "Highlander",
+        "trim": "Limited",
+        "engine": "3.5-L V-6 DOHC 24V",
+        "style": "FWD V-6",
+        "made_in": "United States",
+        "steering_type": "Rack & Pinion",
+        "anti_brake_system": "4-Wheel ABS",
+        "type": "Sport Utility Vehicle",
+        "overall_height": "68.10 inches",
+        "overall_length": "191.10 inches",
+        "overall_width": "75.80 inches",
+        "standard_seating": "7",
+        "highway_mileage": "25 miles/gallon",
+        "city_mileage": "19 miles/gallon",
+        "fuel_type": "Regular Unleaded",
+        "drive_type": "Front-Wheel Drive",
+        "transmission": "6-Speed Automatic"}
+    }
+
+    json_data = json.dumps(car_data)
+
+    return HttpResponse(json_data, content_type='application/json')
+
 
 
 
