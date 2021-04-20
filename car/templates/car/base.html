@@ -21,44 +21,6 @@
 </head>
 
 <body id='body'>
-
-    <!-- <nav class="navbar container navbar-expand-md navbar-light mt-3">
-        <div class="container justify-content-start">
-            <a class="navbar-brand mr-4" href="/">
-                <img src="{% static 'car/images/car-garage.png' %}" width="70" height="65" alt="Car Garage Logo" class="">
-            </a>
-            {% if user.is_authenticated %}
-                <h4 class="m-4 text-dark font-italic d-inline-block">Welcome, {{user.username}}!</h4>
-            {% endif %}
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-
-            <ul class="navbar-nav navbar-collapse">
-
-                {% if user.is_authenticated %}
-                    <li class="nav-item m-3">
-                        <a href="/"><i class="fas fa-car-side fa-flip-horizontal fa-2x text-dark"></i></a>
-                    </li>
-                    <li class="nav-item m-3">
-                        <a href="{% url 'profile-page' pk=user.id %}"><i class="fas fa-user-tie fa-2x text-dark"></i></a>
-                    </li>
-                    <li class="nav-item m-3">
-                        <a href="/logout"><i class="fas fa-sign-out-alt fa-2x text-dark"></i></a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <h5><a class="nav-link text-dark" href="{% url 'login-page' %}">Login</a></h5>
-                    </li>
-                    <li class="nav-item">
-                        <h5><a class="nav-link text-dark" href="{% url 'register-page' %}">Register</a></h5>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav> -->
     
     <nav id="top-nav">
 
@@ -70,8 +32,16 @@
             <h4 class="d-inline-block"><i>Welcome, {{user.username}}!</i></h4>
             {% endif %}
         </div>
+        
+        <!-- <label for="hamburger">&#9776;</label> -->
+        <label for="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </label>
+        <input type="checkbox" id="hamburger">
 
-        <ul>
+        <ul id="nav-items">
             {% if user.is_authenticated %}
             <li>
                 <a href="/"><i class="fas fa-car-side fa-flip-horizontal fa-2x icon-link"></i></a>
@@ -93,6 +63,16 @@
             </li>
             {% endif %}
         </ul>
+
+        
+
+        <!-- <div id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div> -->
+        
+        
         
     </nav>
 

@@ -11,6 +11,12 @@
   padding: 8px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+#top-nav label,
+#hamburger {
+  display: none;
 }
 
 #logo-side i {
@@ -21,17 +27,15 @@
   box-shadow: 8px 5px 8px black;
 }
 
-nav ul {
+#top-nav ul {
   margin-bottom: 0px;
-  padding: 1rem;
 }
 
-nav li {
+#top-nav li {
   display: inline-block;
   font-size: 16px;
   font-weight: bold;
   margin-left: 1em;
-  margin-top: 5px;
 }
 
 .login-reg-link {
@@ -58,6 +62,19 @@ nav li {
 
 .icon-link:hover {
   color: rgb(37, 139, 68);
+}
+
+/* #hamburger {
+  display: none;
+} */
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease-in-out;
+  background-color: black;
 }
 
 /*  */
@@ -108,4 +125,42 @@ h1 {
 
 #map {
   height: 500px;
+}
+
+/* media queries */
+@media only screen and (max-width: 720px) {
+  /* show hamburger label */
+  #top-nav label {
+    display: inline-block;
+    color: black;
+    font-size: 1.2em;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  /* set li back to normal block */
+  #nav-items li {
+    display: block;
+    margin-left: 0;
+  }
+
+  .login-reg-link {
+    padding: 0.8em;
+    color: black;
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
+
+  /* hide ul section */
+  #nav-items {
+    display: none;
+  }
+
+  #top-nav input:checked ~ #nav-items {
+    display: block;
+    position: fixed;
+    text-align: right;
+    top: 85px;
+    right: 15%;
+  }
 }
