@@ -16,6 +16,7 @@ from django.core import serializers
 from django.conf import settings
 
 
+
 def index(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -26,47 +27,43 @@ def index(request):
 def register(request):
 
     if request.method == "POST":
-        reg_form = UserRegisterForm(request.POST)
+        reg_form = UserRegisterForm(request.POST or None)
 
         if reg_form.is_valid():
             reg_form.save()      
-            
             messages.success(request, f'Your account has been created! You may log in now.')
             return redirect('login-page')
-    
-    reg_form = UserRegisterForm()
+
+    else:
+        reg_form = UserRegisterForm()
     
     return render(request, 'car/register.html', {'reg_form': reg_form})
 
 
 @login_required
 def profile(request, pk):
+
     this_user = User.objects.get(id=pk)
+    u_form = UserUpdateForm(instance=this_user)
+    p_form = SetPasswordForm(this_user)
     if request.method == "POST":
         if 'u-btn' in request.POST:       
             u_form = UserUpdateForm(request.POST, instance=this_user)
+            
             if u_form.is_valid():
                 u_form.save()
                 messages.success(request, f'Profile has been successfully updated.')
                 return redirect('profile-page', pk)
 
-            for val in u_form.errors.values():
-                messages.error(request, val)
-
         if 'p-btn' in request.POST:       
             p_form = SetPasswordForm(this_user, request.POST)
+
             if p_form.is_valid():
                 u_pass = p_form.save()
                 update_session_auth_hash(request, u_pass)
                 messages.success(request, f'Password has been successfully updated.')
                 return redirect('logout-page')
 
-            for val in p_form.errors.values():
-                messages.error(request, val)
-
-
-    u_form = UserUpdateForm(instance=this_user)
-    p_form = SetPasswordForm(this_user)
     return render(request, 'car/profile.html', 
                     {'u_form': u_form, 'p_form': p_form, 'this_user': this_user})
 

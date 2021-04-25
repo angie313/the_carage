@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'car/style.css' %}">
     
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <title>The Garage</title> 
+    <title>The Carage</title> 
 
 </head>
 
@@ -34,13 +34,14 @@
         </div>
         
         <!-- <label for="hamburger">&#9776;</label> -->
+        <input type="checkbox" id="hamburger">
         <label for="hamburger">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </label>
-        <input type="checkbox" id="hamburger">
-
+        
+        
         <ul id="nav-items">
             {% if user.is_authenticated %}
             <li>
@@ -55,45 +56,48 @@
                 <a href="/logout"><i class="fas fa-sign-out-alt fa-2x icon-link"></i></a>
             </li>
             {% else %}
+
+            {% block nav_login %}
             <li>
                 <a href="{% url 'login-page' %}" class="login-reg-link">Login</a>
             </li>
+            {% endblock nav_login %}
+
+            {% block nav_register %}
             <li>
                 <a href="{% url 'register-page' %}" class="login-reg-link">Register</a>
             </li>
+            {% endblock nav_register %}
+
             {% endif %}
         </ul>
-
         
 
-        <!-- <div id="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div> -->
-        
-        
-        
     </nav>
 
 
     {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-{{message.tags}} text-center mt-5 w-75 mx-auto alert-dismissible fade show" id="mssg" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <div class="alert alert-{{message.tags}} text-center mt-5 w-75 mx-auto alert-dismissible fade show" id="mssg" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
         {% endfor %}
     {% endif %}
 
     {% block content %}{% endblock %}
 
+
+    <!-- <footer>
+        Created by xxxx
+    </footer> -->
+
+
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>
@@ -105,13 +109,6 @@
     <script src="{% static 'car/secret.js' %}"></script>
     <script src="{% static 'car/func.js' %}"></script>
     <script src="https://kit.fontawesome.com/0730351a81.js" crossorigin="anonymous"></script>
-    <!-- <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATpTmz-s_6aCMGiqfoXr5rJgfDF430QEc&libraries=places">
-    </script> -->
-    <!-- <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=&libraries=places">
-    </script> -->
-    <!-- AIzaSyATpTmz-s_6aCMGiqfoXr5rJgfDF430QEc -->
 
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 $(document).ready(function(){
 
+
     // insert a row in my vehicle list when added a car
     function carRow(id){
         var row = (`<div class="row justify-content-around mt-4" id="id-${id}"> 

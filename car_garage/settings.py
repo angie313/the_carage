@@ -135,5 +135,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login-page'
 
+LOGOUT_REDIRECT_URL = '/'
+
 GOOGLE_MAP_API_KEY = config('google_map_API_key')
 

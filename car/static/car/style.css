@@ -1,5 +1,10 @@
-#body {
-  background-color: #d4e0e4;
+/* html {
+  height: 100%vh;
+} */
+
+body {
+  background: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%)
+    fixed;
   padding: 0px;
   margin: 0px;
 }
@@ -64,10 +69,6 @@
   color: rgb(37, 139, 68);
 }
 
-/* #hamburger {
-  display: none;
-} */
-
 .bar {
   display: block;
   width: 25px;
@@ -76,21 +77,51 @@
   transition: all 0.3s ease-in-out;
   background-color: black;
 }
+/* end navigation */
 
-/*  */
-
+/* landing page (home.html) */
 #main {
+  width: 75%;
+  margin: 5px auto;
+  display: flex;
   padding-top: 5rem;
+  justify-content: space-around;
+}
+
+#get-start-btn {
+  margin-left: 40%;
+  color: white;
+  background-color: black;
+  padding: 1rem 1.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0.5em;
+}
+
+#get-start-btn:hover {
+  text-decoration: none;
+  background-color: rgb(5, 140, 5);
+  color: White;
+  box-shadow: 0 0 20px black;
+}
+
+#car-img-sect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#car-img {
+  display: block;
+  width: 80%;
 }
 
 h1 {
   font-family: "Roboto", sans-serif;
 }
 
-#car-img {
-  width: 95%;
-  height: auto;
-  padding-top: 50px;
+.fa-ul {
+  margin-bottom: 60px;
 }
 
 .fa-ul li {
@@ -103,12 +134,20 @@ h1 {
 .fa-check {
   margin-right: 1em;
 }
+/* end landing page (home.html) */
 
-/* --------- */
-
+/* registration page */
 .main-sect {
   width: 35%;
-  margin: 80px auto;
+  margin: 3rem auto;
+}
+
+#reg-form button {
+  width: 100%;
+}
+
+.asteriskField {
+  display: none;
 }
 
 /* --------- */
@@ -136,19 +175,24 @@ h1 {
     font-size: 1.2em;
     padding: 10px;
     cursor: pointer;
+    margin-bottom: 0;
   }
 
   /* set li back to normal block */
   #nav-items li {
-    display: block;
-    margin-left: 0;
+    display: inline-block;
+    margin: 0.5em 0 0.5em 0.3em;
+  }
+
+  .icon-link {
+    margin-left: 0.3em;
   }
 
   .login-reg-link {
-    padding: 0.8em;
+    padding: 0.5em;
     color: black;
     border-bottom: none;
-    margin-bottom: 1rem;
+    margin: 0.5em 0 0.5em 0.2em;
   }
 
   /* hide ul section */
@@ -156,11 +200,23 @@ h1 {
     display: none;
   }
 
+  /* toggle the hamburger to show ul section */
   #top-nav input:checked ~ #nav-items {
     display: block;
-    position: fixed;
+    position: absolute;
     text-align: right;
-    top: 85px;
+    top: 70px;
     right: 15%;
+  }
+
+  /* hide car maint. image */
+  #car-img-sect {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  #logo-side i {
+    display: none;
   }
 }
