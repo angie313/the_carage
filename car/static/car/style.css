@@ -146,6 +146,11 @@ h1 {
   width: 100%;
 }
 
+/* #reg-form fieldset {
+  padding: 1rem;
+  border-right: 2px solid #1e5c9ade;
+} */
+
 .asteriskField {
   display: none;
 }
