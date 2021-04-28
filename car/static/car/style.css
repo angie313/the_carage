@@ -154,6 +154,12 @@ h1 {
 .asteriskField {
   display: none;
 }
+/* end registration-page */
+
+/* login page*/
+#login-form button {
+  width: 100%;
+}
 
 /* --------- */
 

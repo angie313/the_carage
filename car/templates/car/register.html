@@ -1,4 +1,6 @@
 {% extends 'car/base.html' %}
+{% load static %}
+{% load socialaccount %}
 {% load crispy_forms_tags %}
 
 {% block nav_register %}{% endblock nav_register %}
@@ -6,13 +8,16 @@
 {% block content %}
 
 <div class="main-sect">
+    <a class="btn btn-success w-100 mb-2" href="{% provider_login_url 'google' %}" role="button">Google</a>
+    <a class="btn btn-success w-100" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button">Facebook</a>
+
     <form method="POST" id="reg-form">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Register</legend>
             {{ reg_form|crispy }}
-            
         </fieldset>
+
         <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">Register</button>
         </div>
@@ -28,5 +33,7 @@
     
 
 </div>
+
+<script src="{% static 'car/login-reg.js' %}"></script>
 
 {% endblock content %}
