@@ -1,40 +1,53 @@
 // Toggle passwords
 const style = document.createElement('style')
 
-const pwDiv = document.getElementById('div_id_password')
-const pwOneDiv = document.getElementById('div_id_password1')
-const pwTwoDiv = document.getElementById('div_id_password2')
+const pwInput = document.getElementById('id_password')
+const pwInput1 = document.getElementById('id_password1')
+const pwInput2 = document.getElementById('id_password2')
+
 const viewPwIcon = document.createElement('i')
 const viewPwTwoIcon = document.createElement('i')
-if(pwDiv){
+
+if(pwInput){
+
+    pwInputDiv = pwInput.parentNode
+    pwInputDiv.className = 'pw-input-div'
     viewPwIcon.classList.add('far', 'fa-eye')
-    pwDiv.insertBefore(viewPwIcon, pwDiv.firstElementChild.nextSibling)
-    let pwInput = viewPwIcon.nextElementSibling.firstElementChild;
+    pwInputDiv.appendChild(viewPwIcon)
     viewPwIcon.addEventListener('click', ()=>{
         togglePassword(pwInput, viewPwIcon)
     })
-
+    console.log(pwInputDiv.firstChild)
 
 } else{
+
+    pwInputDiv1 = pwInput1.parentNode
+    pwInputDiv1.className = 'pw-input-div1'
+    pwInputDiv2 = pwInput2.parentNode
+    pwInputDiv2.className = 'pw-input-div2'
+
     viewPwIcon.classList.add('far', 'fa-eye')
     viewPwTwoIcon.classList.add('far', 'fa-eye')
-    pwOneDiv.insertBefore(viewPwIcon, pwOneDiv.firstElementChild.nextSibling)
-    pwTwoDiv.insertBefore(viewPwTwoIcon, pwTwoDiv.firstElementChild.nextSibling)
-    let pwOne = viewPwIcon.nextElementSibling.firstElementChild;
-    let pwTwo = viewPwTwoIcon.nextElementSibling.firstElementChild;
+    
+    pwInputDiv1.appendChild(viewPwIcon)
+    pwInputDiv2.appendChild(viewPwTwoIcon)
     viewPwIcon.addEventListener('click', ()=>{
-        togglePassword(pwOne, viewPwIcon)
+        togglePassword(pwInput1, viewPwIcon)
     })
     viewPwTwoIcon.addEventListener('click', ()=>{
-        togglePassword(pwTwo, viewPwTwoIcon)
+        togglePassword(pwInput2, viewPwTwoIcon)
     })
 }
 
 style.innerHTML = `
     .fa-eye {
-        float: right;
-        margin-top: 8px;
+        position: absolute;
+        top: 0.7rem;
+        right: 0.8rem;
         cursor: pointer;
+    }
+    .pw-input-div, .pw-input-div1, .pw-input-div2 {
+        position: relative;
     }
 `
 document.head.appendChild(style)
