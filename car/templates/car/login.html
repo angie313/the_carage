@@ -1,31 +1,52 @@
 {% extends 'car/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block nav_login %}{% endblock nav_login %}
 
 {% block content %}
 
-<div class="main-sect">
+<div class="login-sect">
+    <div id="left-col" class="text-center">
+        <h3 class="mt-4 mx-2">Welcome Back!</h3>
+        <p><i>Sign in to view your cars</i></p>
+        <img src="{% static 'car/images/multi-cars-color.png' %}" alt="Variety Car" id='color-cars'>
+        <p id="need-acct">
+            <a href="{% url 'register-page' %}">Create Account</a>
+        </p>
+    </div>
+
+    <div id="md-screen-top">
+        <a href="{% url 'register-page' %}" class="text-muted">Create Account</a>
+        <h3>Welcome Back!</h3>
+    </div>
+
     <form method="POST" id="login-form">
         {% csrf_token %}
+        
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Log In</legend>
             {{ form|crispy }}
             <div class="text-right"><a href="{% url 'password_reset' %}">Forgot Password?</a></div>
-        
-
+            <button type="submit" class="btn btn-primary my-2">Sign In</button>
+            
         </fieldset>
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary my-2">Login</button>
-        </div>
         
+        <div id="social-login"> 
+            <span id="login-or">or</span>
+            <p class="text-muted">Sign in with your social account</p>
+            <a href="{% provider_login_url 'google' %}">
+                <i class="fab fa-google-plus fa-2x text-danger mr-3"></i>
+            </a>
+            <a href="{% provider_login_url 'facebook' method='oauth2' %}">
+                <i class="fab fa-facebook fa-2x text-primary"></i>
+            </a>
+        </div>
     </form>
-    <div class="border-top py-3 text-center">
-        Need an Account? <a href="{% url 'register-page' %}" class="ml-2">Register</a>
-    </div>
+    
 </div>
 
 
 <script src="{% static 'car/login-reg.js' %}"></script>
+
 {% endblock content %}

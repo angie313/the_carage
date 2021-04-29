@@ -7,32 +7,47 @@
 
 {% block content %}
 
-<div class="main-sect">
-    <a class="btn btn-success w-100 mb-2" href="{% provider_login_url 'google' %}" role="button">Google</a>
-    <a class="btn btn-success w-100" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button">Facebook</a>
+<div class="reg-sect">
+    <div id="stack-social-view">
+        <h3 class="text-center mb-4">Welcome to The Carage!</h3>
+        <a class="btn btn-danger w-100 mb-3" href="{% provider_login_url 'google' %}" role="button">Continue with Google</a>
+        <a class="btn btn-primary w-100" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button">Continue with Facebook</a>
+        <div id='or-border'><span>or</span></div>
+    </div>
 
     <form method="POST" id="reg-form">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Register</legend>
+            <legend>Account Registration</legend>
             {{ reg_form|crispy }}
-        </fieldset>
 
-        <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">Register</button>
-        </div>
+        </fieldset>
         <hr>
         <p class="text-muted text-center">
             Already have an account? <a href="{% url 'login-page' %}">Sign In</a>
         </p>
     </form>
 
-    <section>
+    <section id="social-col">
+        <h3>Welcome to the Carage!</h3>
+        <p> 
+            To manage all your vehicles at one place, 
+            register or continue with your social account!
+        </p>
+        <a class="btn btn-danger mb-3" href="{% provider_login_url 'google' %}" role="button">
+            <i class="fa fa-google fa-fw mr-2"></i> Google
+        </a>
+        <a class="btn btn-primary" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button">
+            <i class="fa fa-facebook fa-fw mr-2"></i> Facebook
+        </a>
+       
+        <img src="{% static 'car/images/multi-cars.png' %}" alt="multi cars picture" id='multi-cars'>
         
     </section>
     
-
 </div>
+
 
 <script src="{% static 'car/login-reg.js' %}"></script>
 
