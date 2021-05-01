@@ -7,7 +7,7 @@
 <h5 class="text-center text-danger" id="del-fail"></h5>
 
 <div class="w-75 mx-auto main-sect">
-    <div class="m-4">
+    <div class="mb-4">
         <h3>
             {{this_car.year}} {{this_car.make}} {{this_car.model}} 
             <a href="" data-toggle="modal" data-target='#editModal'><i class="fas fa-edit text-primary ml-4"></i></a>
@@ -21,11 +21,11 @@
             </div>
         </form>
         {% else %}
-        <p class="text-muted mb-4">VIN: {{this_car.vin}}</p>
+        <p class="text-muted">VIN: {{this_car.vin}}</p>
         {% endif %}
     </div>      
     <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <div class="nav nav-tabs m-4" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Basics</a>
             <a class="nav-item nav-link" id="nav-warranty-tab" data-toggle="tab" href="#nav-warranty" role="tab" aria-controls="nav-warranty" aria-selected="false">Warranty</a>
             <a class="nav-item nav-link" id="nav-service-tab" data-toggle="tab" href="#nav-service" role="tab" aria-controls="nav-service" aria-selected="false">Services/Repairs</a>
@@ -38,30 +38,32 @@
     <div class="tab-content" id="nav-tabContent">
         <!-- info-content -->
         <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
-            <table class="table text-center mt-4">
-                <thead>
-                  <tr>
-                    <th scope="col">Year</th>
-                    <th scope="col">Make</th>
-                    <th scope="col">Model</th>
-                    <th scope="col">Trim</th>
-                    <th scope="col">Engine</th>
-                    <th scope="col">Transmission</th>
-                    <th scope="col">Odometer</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr> 
-                        <td class="get_yr">{{this_car.year}}</td> 
-                        <td class="get_make">{{this_car.make}}</td>
-                        <td class="get_model">{{this_car.model}}</td>
-                        <td class="get_trim">{{this_car.trim}}</td>
-                        <td class="get_engine">{{this_car.engine}}</td>
-                        <td class="get_transmission">{{this_car.transmission}}</td>
-                        <td class="get_odometer">{{this_car.odometer}}</td>
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">Year</th>
+                        <th scope="col">Make</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Trim</th>
+                        <th scope="col">Engine</th>
+                        <th scope="col">Transmission</th>
+                        <th scope="col">Odometer</th>
                     </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <tr> 
+                            <td class="get_yr">{{this_car.year}}</td> 
+                            <td class="get_make">{{this_car.make}}</td>
+                            <td class="get_model">{{this_car.model}}</td>
+                            <td class="get_trim">{{this_car.trim}}</td>
+                            <td class="get_engine">{{this_car.engine}}</td>
+                            <td class="get_transmission">{{this_car.transmission}}</td>
+                            <td class="get_odometer">{{this_car.odometer}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- warranty-content -->
@@ -89,10 +91,10 @@
         <!-- service-content -->
         <div class="tab-pane fade" id="nav-service" role="tabpanel" aria-labelledby="nav-service-tab">
             {% if not this_car.svc_records.all %}
-            <div id="no-records-mssg">
-                <h3 class="text-center my-5">You have not added any service/repair records</h3>
-                <div class="text-center">
-                    <button class="btn btn-primary mx-auto" data-toggle="modal" data-target='#addServiceModal'>ADD ONE NOW</button>
+            <div id="no-records-mssg" class="d-flex justify-content-around">
+                <h5>Total Records: {{this_car.svc_records.count}}</h5>
+                <div>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target='#addServiceModal'>ADD RECORD</button>
                 </div>
             </div>
             
@@ -214,13 +216,12 @@
         <!-- maintenance-content -->
         <div class="tab-pane fade" id="nav-maint" role="tabpanel" aria-labelledby="nav-maint-tab">
             <div id="maint-accordion">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                      <h5 class="mb-0">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between" id="headingOne">
                         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
-                            Service Item Groups (Manufacture Recommended Services)
+                            <i class="fas fa-bars mr-2 text-dark"></i> Service Item Groups (Manufacture Recommended Services)
                         </button>
-                      </h5>
+                        
                     </div>
                 
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#maint-accordion">
@@ -272,7 +273,7 @@
 
         <!-- shop-content -->
         <div class="tab-pane fade" id="nav-shop" role="tabpanel" aria-labelledby="nav-shop-tab">
-            <div class="w-50 mx-auto my-5">
+            <div class="my-5">
                 <form class="form-inline" id="location-form">
                     <input type="text" class="form-control mr-3" id="search-content" value="Car Repair">
                     <input type="text" class="form-control mr-3" id="location-input" placeholder="Enter location">
