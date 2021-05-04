@@ -435,18 +435,13 @@ $(document).ready(function(){
         const carID = service_data.get('car_id')
         const image = document.getElementById('id_service_receipt')
         const img_data = image.files[0]
-        // let img_url;
         let url;
         if (img_data){
-            // img_url = URL.createObjectURL(img_data)
             url = URL.createObjectURL(img_data)
 
         } else {
-            // img_url = 'https://django-the-carage.s3.amazonaws.com/invoice_receipt.png'
             url = 'https://django-the-carage.s3.amazonaws.com/invoice_receipt.png'
         }
-
-        // url = img_url
         
         $('#addServiceModal').modal('hide')
 

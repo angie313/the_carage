@@ -79,23 +79,24 @@ body {
 /* end navigation */
 
 /* landing page (home.html) */
+#heading {
+  width: 75%;
+  margin-top: 2.5rem;
+}
+
 #main {
   width: 75%;
-  margin: 5px auto;
+  margin: auto;
   display: flex;
-  padding-top: 5rem;
+  padding-top: 1rem;
   justify-content: space-around;
 }
 
-#main section {
-  position: relative;
+#get-started {
+  text-align: center;
 }
 
 #get-start-btn {
-  display: block;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   color: white;
   background-color: black;
   padding: 1rem 1.5rem;
@@ -107,7 +108,6 @@ body {
 #get-start-btn:hover {
   text-decoration: none;
   background-color: rgba(35, 77, 218, 0.829);
-  color: White;
   box-shadow: 0 0 20px black;
   word-wrap: break-word;
 }
@@ -128,7 +128,7 @@ h1 {
 }
 
 .fa-ul {
-  margin-bottom: 60px;
+  margin-bottom: 2.5rem;
 }
 
 .fa-ul li {
@@ -141,6 +141,32 @@ h1 {
 .fa-check {
   margin-right: 1em;
 }
+
+#carouselIndicators {
+  width: 85%;
+  margin: 4rem auto;
+  display: flex;
+  justify-content: space-evenly;
+  box-shadow: 0 0 10px rgb(31, 28, 28);
+}
+
+#carouselIndicators img {
+  text-align: center;
+  height: 550px;
+}
+
+#carouselIndicators span,
+#carouselIndicators li {
+  background-color: black;
+  padding: 0.2rem;
+}
+
+footer {
+  text-align: center;
+  font-size: 18px;
+  color: #262fd4b5;
+}
+
 /* end landing page (home.html) */
 
 /* registration page */
