@@ -58,13 +58,13 @@ $(document).ready(function(){
         let vinDecode = {
             "async": true,
             "crossDomain": true,
-            "url": '/test-data/'+vin,
-            // "url": "https://vin-decoder7.p.rapidapi.com/vin?vin="+vin,
+            // "url": '/test-data/'+vin,
+            "url": "https://vin-decoder7.p.rapidapi.com/vin?vin="+vin,
             "method": "GET",
-            // "headers": {
-            //     "x-rapidapi-key": vinDecodeAPI,
-            //     "x-rapidapi-host": "vin-decoder7.p.rapidapi.com"
-            // },
+            "headers": {
+                "x-rapidapi-key": vinDecodeAPI,
+                "x-rapidapi-host": "vin-decoder7.p.rapidapi.com"
+            },
             contentType: "application/json; charset=utf-8",
         };
         return vinDecode
@@ -73,6 +73,7 @@ $(document).ready(function(){
 
     $('#search').on('click', function(e){
         e.preventDefault()
+        console.log(vinDecodeAPI)
         let vin = $('#vin-num').val().trim()
         vinValidate(vin)
         if (vinValidate(vin)){
@@ -564,7 +565,6 @@ $(document).ready(function(){
         e.preventDefault();
         var locationInput = document.getElementById('location-input').value
         var searchContent = document.getElementById('search-content').value
-
         axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
             params: {
                 address: locationInput,

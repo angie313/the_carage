@@ -2,7 +2,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,python,django,vscode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,django,vscode
 
-secret.js
 .env
 
 ### Django ###

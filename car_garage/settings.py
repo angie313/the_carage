@@ -176,6 +176,7 @@ LOGIN_URL = 'login-page'
 LOGOUT_REDIRECT_URL = '/'
 
 GOOGLE_MAP_API_KEY = config('google_map_API_key')
+VIN_DECODE_API = config('vin_decode_API')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

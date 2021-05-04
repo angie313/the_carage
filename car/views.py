@@ -73,8 +73,10 @@ class DashboardView(LoginRequiredMixin, ListView):
     # model = Car
     template_name = 'car/dashboard.html'  # default: <app_name>/<model_name>_<viewtype>.html
     context_object_name = 'user_all_cars'   # default to 'object_list' for all cars if not set
+    extra_context = {'vin_decode_api': settings.VIN_DECODE_API}
     def get_queryset(self):
         return Car.objects.filter(owner=self.request.user)
+
 
 
 @login_required
@@ -119,8 +121,9 @@ def car_view(request, pk):
         'service_form': AddServiceForm(),
         'all_services': all_services,
         'all_repairs': all_repairs,
-        'google_map_api': settings.GOOGLE_MAP_API_KEY
+        'google_map_api': settings.GOOGLE_MAP_API_KEY,
     }
+    # print(settings.VIN_DECODE_API)
 
     return render(request, 'car/car_detail.html', context)
 
