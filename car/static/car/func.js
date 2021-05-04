@@ -2,6 +2,44 @@
 
 $(document).ready(function(){
 
+    const vinValidate = (vin) => {
+        const vinErr = document.querySelector('.vin-error')
+        vinErr.innerText = ''
+        if (!vin.match(/^[0-9a-z]+$/i) || vin.length !== 17){
+            vinErr.innerText = 'Please enter valid vin number (17 alphanumeric characters)'
+            return false
+        }
+        return true
+    }
+
+    const ymmValidate = (year, make, model) => {
+        const yrErr = document.getElementById('yr-error')
+        const mkErr = document.getElementById('mk-error')
+        const mdErr = document.getElementById('md-error')
+        yrErr.innerText = ''
+        mkErr.innerText = ''
+        mdErr.innerText = ''
+
+        let isValid = true
+        
+        if (!year.match(/^[0-9]+$/) || year < 1981 || year > new Date().getFullYear() + 1 || year.length !== 4){
+            yrErr.innerText = 'Please enter valid year (from 1981 to current)'
+            isValid = false
+        }
+
+        if (!make.match(/^([a-z-]+)$/i) || make.length === 0){
+            mkErr.innerText = 'Please enter valid make'
+            isValid = false
+        }
+
+        if (!model.match(/^([a-z0-9-]+)$/i)){
+            mdErr.innerText = 'Please enter valid model'
+            isValid = false
+        }
+
+        return isValid
+
+    }
 
     // insert a row in my vehicle list when added a car
     function carRow(id){
@@ -20,28 +58,29 @@ $(document).ready(function(){
         let vinDecode = {
             "async": true,
             "crossDomain": true,
-            // "url": '/test-data/'+vin,
-            "url": "https://vin-decoder7.p.rapidapi.com/vin?vin="+vin,
+            "url": '/test-data/'+vin,
+            // "url": "https://vin-decoder7.p.rapidapi.com/vin?vin="+vin,
             "method": "GET",
-            "headers": {
-                "x-rapidapi-key": vinDecodeAPI,
-                "x-rapidapi-host": "vin-decoder7.p.rapidapi.com"
-            },
+            // "headers": {
+            //     "x-rapidapi-key": vinDecodeAPI,
+            //     "x-rapidapi-host": "vin-decoder7.p.rapidapi.com"
+            // },
             contentType: "application/json; charset=utf-8",
         };
         return vinDecode
     }
     
 
-    $('#search').on('click', function(){
-        console.log('search via API')
-        let vin = $('#vin-num').val()
-
-        $.ajax(vinDecodeAjax(vin)).done(function(response){
+    $('#search').on('click', function(e){
+        e.preventDefault()
+        let vin = $('#vin-num').val().trim()
+        vinValidate(vin)
+        if (vinValidate(vin)){
+            $.ajax(vinDecodeAjax(vin)).done(function(response){
             let year = response.specifications.year
             let make = response.specifications.make
             let model = response.specifications.model
-            console.log(make + response.specifications.vin)
+            // console.log(make + response.specifications.vin)
 
             $('#vin-label').html(
                 `<h5>Is this your car?</h5> <p>${year} ${make} ${model}</p>`
@@ -53,25 +92,32 @@ $(document).ready(function(){
             // .off().on() resolves the row gets appended twice
             $('#yes').off().on('click', function(e){
                 e.preventDefault()
+                vin = $('#vin-num').val().trim()
+                vinValidate(vin)
                 console.log('submitting data')
-                $('#vin-modal').modal('hide')
                 
-                $.ajax({
-                    type: 'POST',
-                    url: '/my-cars/add',
-                    data: {
-                        'by-vin': 'by-vin',
-                        'res-data': JSON.stringify(response),
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                    },
-                    success: function(result){addCarSuccess(result, year, make, model)}
-                })
+                if (vinValidate(vin)){
+                    $('#vin-modal').modal('hide')
+                    $.ajax({
+                        type: 'POST',
+                        url: '/my-cars/add',
+                        data: {
+                            'by-vin': 'by-vin',
+                            'res-data': JSON.stringify(response),
+                            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        },
+                        success: function(result){addCarSuccess(result, year, make, model)}
+                    })
+                }
             })
-        })
+            })
+        }
+        
     })
 
     $('#vin-modal').on('hidden.bs.modal', function(e) {
         $('#vin-modal form')[0].reset();
+        $('#vin-error').empty()
         $('#vin-label').text('VIN')
         $('#not-this').text('Cancel')
         $('#search').show()
@@ -81,30 +127,37 @@ $(document).ready(function(){
     $('#ymm-form').on('submit', function(e){
         e.preventDefault()
         console.log('adding ymm')
-        let year = $('#add-year').val()
-        let make = $('#add-make').val()
-        let model = $('#add-model').val()
-        $('#ymm-modal').modal('hide')
+        let year = $('#add-year').val().trim()
+        let make = $('#add-make').val().trim()
+        let model = $('#add-model').val().trim()
+        
+        ymmValidate(year, make, model)
 
-        $.ajax({
-            type: 'POST',
-            url: '/my-cars/add',
-            data: {
-                'by-ymm':'by-ymm',
-                'year': year,
-                'make': make,
-                'model': model,
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function(result){
-                addCarSuccess(result, year, make, model)
-            }
-
-        })
+        if (ymmValidate(year, make, model)){
+            $('#ymm-modal').modal('hide')
+            $.ajax({
+                type: 'POST',
+                url: '/my-cars/add',
+                data: {
+                    'by-ymm':'by-ymm',
+                    'year': year,
+                    'make': make,
+                    'model': model,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(result){
+                    addCarSuccess(result, year, make, model)
+                }
+            })
+        }
+        
     })
 
     $('#ymm-modal').on('hidden.bs.modal', function(e) {
         $('#ymm-modal form')[0].reset();
+        $('#yr-error').empty()
+        $('#mk-error').empty()
+        $('#md-error').empty()
     });
 
 
@@ -159,62 +212,66 @@ $(document).ready(function(){
     $('#add-vin-fm').on('submit', function(e){
         e.preventDefault()
         let get_id = $('#car_id').val()
-        vin = $('#vin-input').val()
+        vin = $('#vin-input').val().trim()
         let get_yr = $('.get_yr').html()
         let get_make = $('.get_make').html()
         let get_model = $('.get_model').html()
 
-        $.ajax(vinDecodeAjax(vin)).done(function(response){
-            if (response.specifications.year == get_yr && response.specifications.make == get_make &&
-                response.specifications.model == get_model){
-                console.log('the same')
-                $.ajax({
-                    type: 'POST',
-                    url: '/my-cars/edit/'+get_id,
-                    data: {
-                        'res-data': JSON.stringify(response),
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                    },
-                    success: function(result){
-                        if (result.success){
-                            $('.get_trim').html(result.success.trim)
-                            $('.get_engine').html(result.success.engine)
-                            $('.get_transmission').html(result.success.trans)
-                            $('#vin-row').html(`<p class="text-muted">VIN: ${vin}</p>`)
-                            $('#vin-modal').val(vin)
-                            $('#engine').val(result.success.engine)
-                            $('#trim').val(result.success.trim)
-                            $('#transmission').val(result.success.trans)
-                        }
-                        
-                    }
-                })        
-            } 
-            else {
-                console.log('different car')
-                $('#cf-car-modal').modal('show')
-                $('#cf-car-modal .modal-body').append(
-                    `<p id="found-car-info" class="font-weight-bold"> ${response.specifications.year} ${response.specifications.make}
-                    ${response.specifications.model} ${response.specifications.trim}</p>`
-                )
-                $('#confirm-form').on('submit', function(e){
-                    e.preventDefault()
+        vinValidate(vin)
+
+        if (vinValidate(vin)){
+            $.ajax(vinDecodeAjax(vin)).done(function(response){
+                if (response.specifications.year == get_yr && response.specifications.make == get_make &&
+                    response.specifications.model == get_model){
                     $.ajax({
                         type: 'POST',
                         url: '/my-cars/edit/'+get_id,
                         data: {
-                        'res-data': JSON.stringify(response),
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                            'res-data': JSON.stringify(response),
+                            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                         },
-                        success: function(res){
-                            if (res.success){
-                                window.location.href = '/my-cars/'+get_id
+                        success: function(result){
+                            if (result.success){
+                                $('.get_trim').html(result.success.trim)
+                                $('.get_engine').html(result.success.engine)
+                                $('.get_transmission').html(result.success.trans)
+                                $('#vin-row').html(`<p class="text-muted">VIN: ${vin}</p>`)
+                                $('#vin-modal').val(vin)
+                                $('#engine').val(result.success.engine)
+                                $('#trim').val(result.success.trim)
+                                $('#transmission').val(result.success.trans)
                             }
+                            
                         }
+                    })        
+                } 
+                else {
+                    console.log('different car')
+                    $('#cf-car-modal').modal('show')
+                    $('#cf-car-modal .modal-body').append(
+                        `<p id="found-car-info" class="font-weight-bold"> ${response.specifications.year} ${response.specifications.make}
+                        ${response.specifications.model} ${response.specifications.trim}</p>`
+                    )
+                    $('#confirm-form').on('submit', function(e){
+                        e.preventDefault()
+                        $.ajax({
+                            type: 'POST',
+                            url: '/my-cars/edit/'+get_id,
+                            data: {
+                            'res-data': JSON.stringify(response),
+                            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                            },
+                            success: function(res){
+                                if (res.success){
+                                    window.location.href = '/my-cars/'+get_id
+                                }
+                            }
+                        })
                     })
-                })
-            }
-        })
+                }
+            })
+
+        }
 
     })
 
@@ -235,8 +292,6 @@ $(document).ready(function(){
             url: `https://api.nhtsa.gov/recalls/recallsByVehicle?make=${get_make}&model=${get_model}&modelYear=${get_yr}`,
             dataType: "json",
         }).done(function(response){
-            console.log(response.results)
-            console.log(response.Count)
             
             if (!$('#nav-recall h5').html()){
 
@@ -373,56 +428,27 @@ $(document).ready(function(){
 
 
     }
-
-
-    var locationForm = document.getElementById('location-form')
-    locationForm.addEventListener('submit', displayMapInfo)
-    // $('#search-location').click(displayMapInfo)
-    
-
-    function displayMapInfo(e){
-        e.preventDefault();
-        var locationInput = document.getElementById('location-input').value
-        var searchContent = document.getElementById('search-content').value
-
-        axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-            params: {
-                address: locationInput,
-                key: googleMapAPI,
-            }
-        })
-        .then(function(response){
-
-            let Lat = response.data.results[0].geometry.location.lat
-            let Lng = response.data.results[0].geometry.location.lng
-            let locationLatLng = new google.maps.LatLng(Lat, Lng)
-            
-            initMap(locationLatLng, searchContent)
-            
-        })
-        .catch(function(error){
-            console.log(error)
-        })
-    }
-
-
+   
     $('#add-records-fm').on('submit', function(e){
         e.preventDefault()
         const service_data = new FormData(document.getElementById("add-records-fm"))
         const carID = service_data.get('car_id')
         const image = document.getElementById('id_service_receipt')
         const img_data = image.files[0]
-        let img_url;
+        // let img_url;
         let url;
         if (img_data){
-            img_url = URL.createObjectURL(img_data)
+            // img_url = URL.createObjectURL(img_data)
+            url = URL.createObjectURL(img_data)
+
+        } else {
+            // img_url = 'https://django-the-carage.s3.amazonaws.com/invoice_receipt.png'
+            url = 'https://django-the-carage.s3.amazonaws.com/invoice_receipt.png'
         }
 
-        url = img_url
-        // const url = URL.createObjectURL(img_data)
+        // url = img_url
         
         $('#addServiceModal').modal('hide')
-        console.log('add service')
 
         $.ajax({
             type: 'POST',
@@ -441,9 +467,9 @@ $(document).ready(function(){
         row = `<div id="record${res.pk}"><div class="card">
         <div class="card-header" id="headingService${res.pk}"><h5 class="mb-0">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseService${res.pk}" aria-controls="collapseService${res.pk}">
-        ${res.title} | ${res.service_date}</button>
-        <a href="edit-record-link" class="mr-2" name="${res.pk}"><i class="fas fa-pencil-alt text-dark"></i></a>
-        <a href="" id="del-record-${res.pk}" name=""><i class="fas fa-trash-alt text-danger"></i></a>
+        <i class="fas fa-bars mr-2 text-dark"></i> ${res.title} | ${res.service_date}</button>
+        <a href="edit-record-link" class="mr-2" name="${res.pk}"><i class="fas fa-pencil-alt fa-sm text-dark"></i></a>
+        <a href="" id="del-record-${res.pk}" name=""><i class="fas fa-trash-alt fa-sm text-danger"></i></a>
         </h5></div><div id="collapseService${res.pk}" class="collapse" aria-labelledby="headingService${res.pk}" data-parent="#record${res.pk}">
         <div class="card-body"><table class="table">
         <tr><td>Description</td><td>${res.description}</td></tr>
@@ -487,6 +513,7 @@ $(document).ready(function(){
         }
         $('#del-record-'+res.pk).attr('name', res.pk)                          
         $(`a[id="del-record-${res.pk}"]`).on('click', assignRmId)
+        $('a[href="edit-record-link"]').on('click', editRecord)
     }
 
 
@@ -497,7 +524,6 @@ $(document).ready(function(){
         e.preventDefault()
         const thisRecordID = $('#rm-target-id').val()
         $('#rm-modal').modal('hide')
-        console.log('hide rm-modal')
 
         $.ajax({
             type: 'GET',
@@ -516,12 +542,9 @@ $(document).ready(function(){
         })
     }
 
-
-    $('a[href="edit-record-link"]').on('click', function(e){
+    function editRecord(e){
         e.preventDefault()
-        console.log('getting info')
         const recordID = $(this).attr('name')
-        console.log(recordID)
         $.ajax({
             type: 'GET',
             url: "get-service-info/"+recordID,
@@ -537,14 +560,37 @@ $(document).ready(function(){
             $('#edit-record-form input[name="odometer"]').val(response[0].fields.odometer)
 
         })
-    })
+    }
 
-  
+    $('a[href="edit-record-link"]').on('click', editRecord)
 
+    $('#search-location').click(displayMapInfo)
+    function displayMapInfo(e){
+        e.preventDefault();
+        var locationInput = document.getElementById('location-input').value
+        var searchContent = document.getElementById('search-content').value
+
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params: {
+                address: locationInput,
+                key: googleMapAPI,
+            }
+        })
+        .then(function(response){
+
+            let Lat = response.data.results[0].geometry.location.lat
+            let Lng = response.data.results[0].geometry.location.lng
+            let locationLatLng = new google.maps.LatLng(Lat, Lng)
+            
+            initMap(locationLatLng, searchContent)
+            
+        })
+        .catch(function(error){
+            console.log(error)
+        })
+    }
 
 })
-
-
 
 
 function initMap(location, searchContent) {

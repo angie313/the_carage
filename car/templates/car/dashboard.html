@@ -59,6 +59,7 @@
 				<div class="form-group" >
 					<label for="vin-num" id="vin-label">VIN</label>
 					<input type="text" class="form-control" id="vin-num" name="vin">
+					<p class='vin-error'></p>
 				</div>
 			</div>
 
@@ -89,12 +90,15 @@
 			  
 			  <div class="modal-body">
 				  <div class="form-group">
-					  <label for="year">Year</label>
-					  <input type="text" class="form-control" id="add-year" name="year">
-					  <label for="make">Make</label>
-					  <input type="text" class="form-control" id="add-make" name="make">
-					  <label for="model">Model</label>
-					  <input type="text" class="form-control" id="add-model" name="model">
+						<label for="year">Year</label>
+						<input type="text" class="form-control" id="add-year" name="year">
+						<p id='yr-error'></p>
+						<label for="make">Make</label>
+						<input type="text" class="form-control" id="add-make" name="make">
+						<p id='mk-error'></p>
+						<label for="model">Model</label>
+						<input type="text" class="form-control" id="add-model" name="model">
+						<p id='md-error'></p>
 				  </div>
 			  </div>
   
@@ -132,4 +136,6 @@
 	</div>
 
 </div>
+
+
 {% endblock content %}

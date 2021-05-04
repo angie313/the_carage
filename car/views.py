@@ -86,8 +86,6 @@ def add_car(request):
                 owner=this_user, make=request.POST['make'], 
                 model=request.POST['model'], year=request.POST['year']
             )
-            # return JsonResponse({'car_id': 11})
-
 
         elif request.POST.get('by-vin', None):
             car_specs = json.loads(request.POST['res-data'])['specifications']
@@ -96,7 +94,6 @@ def add_car(request):
                 year=car_specs['year'], trim=car_specs['trim'], vin=car_specs['vin'], 
                 engine=car_specs['engine'], transmission=car_specs['transmission']
             )
-            # return JsonResponse({'car_id': 20})
 
         return JsonResponse({'car_id': new_car.id})
 

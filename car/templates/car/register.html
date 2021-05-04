@@ -10,8 +10,10 @@
 <div class="reg-sect">
     <div id="stack-social-view">
         <h3 class="text-center mb-4">Welcome to The Carage!</h3>
-        <a class="btn btn-danger w-100 mb-3" href="{% provider_login_url 'google' %}" role="button">Continue with Google</a>
-        <a class="btn btn-primary w-100" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button">Continue with Facebook</a>
+        <a class="btn btn-danger w-100 mb-3" href="{% provider_login_url 'google' %}" role="button">
+            <i class="fa fa-google fa-fw mr-2"></i> Continue with Google</a>
+        <a class="btn btn-primary w-100" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button">
+            <i class="fa fa-facebook fa-fw mr-2"></i> Continue with Facebook</a>
         <div id='or-border'><span>or</span></div>
     </div>
 

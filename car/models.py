@@ -7,7 +7,7 @@ class Car(models.Model):
 
     make = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
-    year = models.CharField(max_length=4)
+    year = models.PositiveIntegerField()
     trim = models.CharField(max_length=50, blank=True, default="N/A")
     vin = models.CharField(max_length=50, blank=True, null=False)
     engine = models.CharField(max_length=100, blank=True, default="N/A")
@@ -29,7 +29,7 @@ class ServiceRecord(models.Model):
     location = models.CharField(max_length=255, blank=True, null=False)
     work_type = models.CharField(max_length=50)
     service_date = models.DateField(null=True, blank=True)
-    odometer = models.IntegerField(blank=True, default=0)
+    odometer = models.PositiveIntegerField(blank=True, default=0)
     service_receipt = models.ImageField(upload_to='images/', blank=True, default='invoice_receipt.png', help_text="Keep a copy of your receipt here")
 
     created_at = models.DateTimeField(auto_now_add=True)

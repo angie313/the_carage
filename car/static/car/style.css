@@ -1,8 +1,11 @@
+:root {
+  --main-margin: 3rem auto;
+}
+
 body {
   background: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%)
     fixed;
-  padding: 0px;
-  margin: 0px;
+  min-height: 100%;
 }
 
 /* Navigation */
@@ -103,7 +106,7 @@ body {
 
 #get-start-btn:hover {
   text-decoration: none;
-  background-color: rgb(5, 140, 5);
+  background-color: rgba(35, 77, 218, 0.829);
   color: White;
   box-shadow: 0 0 20px black;
   word-wrap: break-word;
@@ -146,7 +149,7 @@ h1 {
   box-sizing: border-box;
   padding: 2rem;
   width: 75%;
-  margin: 3rem auto;
+  margin: var(--main-margin);
   display: flex;
   background-color: #fdf6fd;
   border-radius: 0.75rem;
@@ -205,7 +208,7 @@ h1 {
 .login-sect {
   box-sizing: border-box;
   width: 75%;
-  margin: 3rem auto;
+  margin: var(--main-margin);
   display: flex;
   background-color: #fdf6fd;
   border-radius: 0.75rem;
@@ -282,7 +285,7 @@ h1 {
 
 /* dashboard page */
 .main-sect {
-  margin: 3rem auto;
+  margin: var(--main-margin);
   background-image: linear-gradient(
     to bottom,
     #fdf6fd,
@@ -311,6 +314,13 @@ h1 {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
   transform: scale(1.1);
 }
+
+.vin-error,
+#yr-error,
+#mk-error,
+#md-error {
+  color: red;
+}
 /* end dashboard */
 
 /* car details page */
@@ -328,11 +338,14 @@ h1 {
   border: none;
 }
 
-#headingOne {
-  background-color: #c3a7bdc2;
+#headingOne,
+#all-records .card-header {
+  background-color: #94969b7d;
+  padding: 0.5rem;
 }
 
-#headingOne button {
+#headingOne button,
+#all-records button {
   color: black;
   font-size: 1rem;
 }
@@ -345,7 +358,23 @@ h1 {
 }
 /* end car details page */
 
-/* --------- */
+/* password reset pages */
+.pw-reset {
+  width: 50%;
+  margin: var(--main-margin);
+  padding: 2.5rem;
+  background-color: #fdf6fd;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 15px #557ccd;
+}
+
+.reset-alert {
+  margin: var(--main-margin);
+}
+
+.reset-alert a {
+  text-decoration: underline;
+}
 
 /* ---------- */
 .material-icons.md-60 {
