@@ -256,7 +256,7 @@ footer {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 3rem;
+  top: 4rem;
   width: 37vw;
   height: 43vh;
 }
@@ -297,13 +297,13 @@ footer {
   left: 50%;
   transform: translateX(-50%);
   bottom: 2rem;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
   text-decoration: underline;
 }
 
 #need-acct a {
-  color: black;
+  color: #b94f4f;
 }
 
 /* end login page */
