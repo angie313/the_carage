@@ -286,7 +286,7 @@ $(document).ready(function(){
 
         $.ajax({
             "method": "GET",
-            "url": `http://api.carmd.com/v3.0/recall?year=${get_yr}&make=${get_make}&model=${get_model}`,
+            "url": `https://api.carmd.com/v3.0/recall?year=${get_yr}&make=${get_make}&model=${get_model}`,
             "headers": {
                 "content-type": "application/json",
                 "authorization": carMdAuthKey,

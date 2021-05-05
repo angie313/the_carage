@@ -350,15 +350,15 @@ footer {
 
 /* car details page */
 .nav-item {
-  color: crimson;
+  color: #203ff1;
   text-transform: uppercase;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .nav-tabs .nav-link:hover,
 .nav-tabs .nav-link.active {
-  background-color: #5874be;
-  color: #ffdbdb;
+  background-color: #373334;
+  color: #ece4e4;
   box-shadow: 0 0 5px rgba(53, 47, 47, 0.68);
   border: none;
 }
