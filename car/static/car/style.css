@@ -376,7 +376,7 @@ footer {
 }
 
 #nav-recall h5 {
-  width: fit-content;
+  width: max-content;
   border: 2px dotted red;
   padding: 0.5rem;
   border-radius: 0.5rem;
