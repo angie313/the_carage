@@ -122,6 +122,8 @@ def car_view(request, pk):
         'all_services': all_services,
         'all_repairs': all_repairs,
         'google_map_api': settings.GOOGLE_MAP_API_KEY,
+        'car_md_auth_key': settings.CAR_MD_AUTH_KEY,
+        'car_md_partner_token': settings.CAR_MD_PARTNER_TOKEN
     }
     # print(settings.VIN_DECODE_API)
 

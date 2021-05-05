@@ -286,40 +286,38 @@ $(document).ready(function(){
 
         $.ajax({
             "method": "GET",
-            "url": `https://api.nhtsa.gov/recalls/recallsByVehicle?make=${get_make}&model=${get_model}&modelYear=${get_yr}`,
-            "dataType": "json",
+            "url": `http://api.carmd.com/v3.0/recall?year=${get_yr}&make=${get_make}&model=${get_model}`,
             "headers": {
-                "Access-Control-Allow-Origin": "*",
-
-            },
+                "content-type": "application/json",
+                "authorization": carMdAuthKey,
+                "partner-token": carMdPartnerToken
+            }
         }).done(function(response){
             
             if (!$('#nav-recall h5').html()){
 
-                if (response.Count === 0){
+                if (response.data.length === 0){
                     $('#nav-recall').append('<h5 class="text-center text-success mt-5"> NO RECALLS FOUND!</h5>')
                 } else {
-                    $('#nav-recall').prepend(`<h5 class="text-danger my-4"> Total Recalls: ${response.Count}</h5>`)
-                    for (var contents of response.results){
+                    $('#nav-recall').prepend(`<h5 class="text-danger my-4"> Total Recalls: ${response.data.length}</h5>`)
+                    for (var contents of response.data){
                         $('#accordion').append(
-                        `<div class="card"><div class="card-header" id="heading${contents.NHTSACampaignNumber}">
-                        <p class="mb-0 text-danger" data-target="#${contents.NHTSACampaignNumber}" aria-expanded="false" aria-controls="${contents.NHTSACampaignNumber}">
-                        NHTSA Campaign Number: ${contents.NHTSACampaignNumber} / Report Date: ${contents.ReportReceivedDate}
+                        `<div class="card"><div class="card-header" id="heading${contents.campaign_number}">
+                        <p class="mb-0 text-danger" data-target="#${contents.campaign_number}" aria-expanded="false" aria-controls="${contents.campaign_number}">
+                        NHTSA Campaign Number: ${contents.campaign_number} / Report Date: ${contents.recall_date}
                         </p></div>
-                        <div id="${contents.NHTSACampaignNumber}" class="collapse show" aria-labelledby="heading${contents.NHTSACampaignNumber}" data-parent="#accordion">
+                        <div id="${contents.campaign_number}" class="collapse show" aria-labelledby="heading${contents.campaign_number}" data-parent="#accordion">
                         <div class="card-body"><table class="table table-bordered table-hover">
-                        <tr><td>Component </td><td>${contents.Component}</td></tr>
-                        <tr><td>Summary</td><td>${contents.Summary}</td></tr>
-                        <tr><td>Consequence</td><td>${contents.Conequence}</td></tr>
-                        <tr><td>Remedy</td><td>${contents.Remedy}</td></tr>
-                        <tr><td>Notes</td><td>${contents.Notes}</td></tr>
+                        <tr><td>Description</td><td>${contents.desc}</td></tr>
+                        <tr><td>Consequence</td><td>${contents.consequence}</td></tr>
+                        <tr><td>Remedy</td><td>${contents.corrective_action}</td></tr>
                         </table></div></div></div>`)
                     }
                 }
 
             }
             
-        }).fail(function(jqXHR, textStatus){
+        }).fail(function(textStatus){
             alert( "Request failed: " + textStatus )
         })    
     })

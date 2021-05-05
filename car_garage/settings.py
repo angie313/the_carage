@@ -182,6 +182,9 @@ LOGOUT_REDIRECT_URL = '/'
 GOOGLE_MAP_API_KEY = config('google_map_API_key')
 VIN_DECODE_API = config('vin_decode_API')
 
+CAR_MD_AUTH_KEY = config('CAR_MD_AUTH_KEY')
+CAR_MD_PARTNER_TOKEN = config('CAR_MD_PARTNER_TOKEN')
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
