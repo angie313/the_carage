@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # DEBUG = True
 DEBUG = (config('DEBUG_VALUE') == 'True')
 
+
 ALLOWED_HOSTS = ['the-carage-app.herokuapp.com']
 
 

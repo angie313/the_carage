@@ -73,7 +73,6 @@ $(document).ready(function(){
 
     $('#search').on('click', function(e){
         e.preventDefault()
-        console.log(vinDecodeAPI)
         let vin = $('#vin-num').val().trim()
         vinValidate(vin)
         if (vinValidate(vin)){
@@ -81,7 +80,6 @@ $(document).ready(function(){
             let year = response.specifications.year
             let make = response.specifications.make
             let model = response.specifications.model
-            // console.log(make + response.specifications.vin)
 
             $('#vin-label').html(
                 `<h5>Is this your car?</h5> <p>${year} ${make} ${model}</p>`
@@ -95,7 +93,6 @@ $(document).ready(function(){
                 e.preventDefault()
                 vin = $('#vin-num').val().trim()
                 vinValidate(vin)
-                console.log('submitting data')
                 
                 if (vinValidate(vin)){
                     $('#vin-modal').modal('hide')
@@ -127,7 +124,6 @@ $(document).ready(function(){
 
     $('#ymm-form').on('submit', function(e){
         e.preventDefault()
-        console.log('adding ymm')
         let year = $('#add-year').val().trim()
         let make = $('#add-make').val().trim()
         let model = $('#add-model').val().trim()
@@ -247,7 +243,6 @@ $(document).ready(function(){
                     })        
                 } 
                 else {
-                    console.log('different car')
                     $('#cf-car-modal').modal('show')
                     $('#cf-car-modal .modal-body').append(
                         `<p id="found-car-info" class="font-weight-bold"> ${response.specifications.year} ${response.specifications.make}
@@ -287,11 +282,16 @@ $(document).ready(function(){
     let curr_yr = new Date().getFullYear()
 
     $('a[href="#nav-recall"]').on('click', function(){
+        console.log('getting recall')
 
         $.ajax({
-            method: "GET",
-            url: `https://api.nhtsa.gov/recalls/recallsByVehicle?make=${get_make}&model=${get_model}&modelYear=${get_yr}`,
-            dataType: "json",
+            "method": "GET",
+            "url": `https://api.nhtsa.gov/recalls/recallsByVehicle?make=${get_make}&model=${get_model}&modelYear=${get_yr}`,
+            "dataType": "json",
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+
+            },
         }).done(function(response){
             
             if (!$('#nav-recall h5').html()){
@@ -319,6 +319,8 @@ $(document).ready(function(){
 
             }
             
+        }).fail(function(jqXHR, textStatus){
+            alert( "Request failed: " + textStatus )
         })    
     })
 
@@ -333,7 +335,6 @@ $(document).ready(function(){
             let powertrain_mi = response.data[3].max_miles
            
             if (get_odometer == "0"){
-                console.log('odometer is zero')
                 $('#nav-warranty').html('<h5 class="text-center text-danger mt-5"> You must set an odometer to check warranty status!</h5>')
 
             } else {
@@ -370,7 +371,6 @@ $(document).ready(function(){
 
 
     $('a[href="#nav-maint"]').click(function(){
-        console.log('services')
         let interval = 0, services = ''
 
         if (isNaN(get_odometer)){
