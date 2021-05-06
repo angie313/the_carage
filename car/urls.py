@@ -12,7 +12,7 @@ urlpatterns = [
     path('', index),
     path('register', register, name='register-page'),
     path('login', auth_views.LoginView.as_view(template_name='car/login.html'), name='login-page'),
-    path('logout', auth_views.LogoutView.as_view(template_name='car/home.html')),
+    path('logout', auth_views.LogoutView.as_view(template_name='car/home.html'), name='logout-page'),
     path('profile/<int:pk>', profile, name='profile-page'),
     path('my-cars', DashboardView.as_view(), name='dashboard'),
     path('my-cars/add', add_car),
