@@ -10,7 +10,7 @@
 <div class="login-sect">
     <div id="left-col" class="text-center">
         <h3 class="mt-4 mx-2">Welcome Back!</h3>
-        <p><i>Sign in to view your cars</i></p>
+        <p class="mx-2"><i>Sign in to view your cars</i></p>
         <img src="{% static 'car/images/multi-cars-color.png' %}" alt="Variety Car" id='color-cars'>
         <p id="need-acct">
             <a href="{% url 'register-page' %}">Create Account</a>
@@ -18,7 +18,6 @@
     </div>
 
     <div id="md-screen-top">
-        <a href="{% url 'register-page' %}" class="text-muted">Create Account</a>
         <h3>Welcome Back!</h3>
     </div>
 
@@ -32,7 +31,7 @@
             
         </fieldset>
         
-        <div id="social-login"> 
+        <div id="social-login" class="mb-3"> 
             <span id="login-or">or</span>
             <p class="text-muted">Sign in with your social account</p>
             <a href="{% provider_login_url 'google' %}">
@@ -42,7 +41,11 @@
                 <i class="fab fa-facebook fa-2x text-primary"></i>
             </a>
         </div>
+        <a href="{% url 'register-page' %}" id="right-col-create-acct">Create Account</a>
     </form>
+    
+
+    
     
 </div>
 

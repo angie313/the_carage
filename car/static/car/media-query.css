@@ -109,12 +109,9 @@
     margin: 2rem 2rem;
   }
 
-  #md-screen-top a {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-weight: 700;
-    text-decoration: underline;
+  #right-col-create-acct {
+    display: block;
+    float: right;
   }
 }
 
