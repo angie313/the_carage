@@ -286,7 +286,7 @@ $(document).ready(function(){
         $.ajax({
             "method": "GET",
             // "url": `https://api.carmd.com/v3.0/recall?year=${get_yr}&make=${get_make}&model=${get_model}`,
-            "url": `https://cors-anywhere.herokuapp.com/https://api.nhtsa.gov/recalls/recallsByVehicle?make=${get_make}&model=${get_model}&modelYear=${get_yr}`,
+            "url": `https://thingproxy.freeboard.io/fetch/https://api.nhtsa.gov/recalls/recallsByVehicle?make=${get_make}&model=${get_model}&modelYear=${get_yr}`,
             "headers": {
                 "content-type": "application/json",
                 // "authorization": carMdAuthKey,

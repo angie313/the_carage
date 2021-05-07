@@ -247,7 +247,6 @@ footer {
 }
 
 #left-col {
-  position: relative;
   box-sizing: border-box;
   width: 45%;
 }
@@ -290,10 +289,8 @@ footer {
 }
 
 #need-acct {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 2rem;
+  margin-top: 1rem;
+  padding: 10px;
   font-size: 20px;
   font-weight: bold;
   text-decoration: underline;
