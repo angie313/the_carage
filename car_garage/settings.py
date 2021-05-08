@@ -28,8 +28,13 @@ SECRET_KEY = config('SECRET_KEY')
 # DEBUG = True
 DEBUG = (config('DEBUG_VALUE') == 'True')
 
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = ['the-carage-app.herokuapp.com']
+
+
+ALLOWED_HOSTS = ['the-carage-app.herokuapp.com', 'www.carage.cc', 'carage.cc']
 
 
 # Application definition
